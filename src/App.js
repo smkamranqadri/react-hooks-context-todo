@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { Div } from 'styled-system-html';
 
 import Navbar from './component/navbar';
 import Todos from './component/todos';
 import NewTodo from './component/newTodo';
+
+export const AppContext = createContext();
 
 function App() {
   const [todos, setTodos] = useState(['Todo 1', 'Todo 2']);
@@ -29,13 +31,15 @@ function App() {
   };
 
   return (
-    <Div width="762px" margin="auto">
-      <Div display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-        <Navbar title="Todo List!" />
-        <NewTodo oldTodo={todos[selectTodoIndex]} addTodo={addTodo} />
-        <Todos todos={todos} editTodo={editTodo} deleteTodo={deleteTodo} />
+    <AppContext.Provider value={{ todos, auth: false }}>
+      <Div width="762px" margin="auto">
+        <Div display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+          <Navbar title="Todo List!" />
+          <NewTodo oldTodo={todos[selectTodoIndex]} addTodo={addTodo} />
+          <Todos editTodo={editTodo} deleteTodo={deleteTodo} />
+        </Div>
       </Div>
-    </Div>
+    </AppContext.Provider>
   );
 }
 

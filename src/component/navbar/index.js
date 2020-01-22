@@ -1,9 +1,12 @@
 import React from 'react';
 import { Header, H1, Button, Div } from 'styled-system-html';
 
-export default ({ title, auth }) => {
-  return (
-    <Header width="100%" display="flex" justifyContent="space-between" alignItems="center">
+import { AppContext } from '../../App';
+
+export default ({ title, auth }) => (
+  <AppContext.Consumer>
+    {({ auth }) => (
+      <Header width="100%" display="flex" justifyContent="space-between" alignItems="center">
       <H1 textAlign="center" flex="1">
         {title}
       </H1>
@@ -30,5 +33,6 @@ export default ({ title, auth }) => {
         )}
       </Div>
     </Header>
-  );
-};
+    )}
+  </AppContext.Consumer>
+);
