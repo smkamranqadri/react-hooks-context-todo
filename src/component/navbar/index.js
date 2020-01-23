@@ -1,19 +1,20 @@
 import React from 'react';
 import { Header, H1, Button, Div } from 'styled-system-html';
 
-import { AppContext } from '../../App';
+import { useStateValue, actions } from '../../state';
 
-export default ({ title, auth }) => (
-  <AppContext.Consumer>
-    {({ auth }) => (
-      <Header width="100%" display="flex" justifyContent="space-between" alignItems="center">
+export default ({ title }) => {
+  const [{ auth }, dispatch] = useStateValue();
+
+  return (
+    <Header width="100%" display="flex" justifyContent="space-between" alignItems="center">
       <H1 textAlign="center" flex="1">
         {title}
       </H1>
       <Div>
-        {!auth && (
+        {!auth.isLoggedIn && (
           <>
-            <Button padding="10px" marginRight="10px" onClick={() => {}}>
+            <Button padding="10px" marginRight="10px" onClick={() => dispatch(actions.login())}>
               Login
             </Button>
             <Button padding="10px" onClick={() => {}}>
@@ -21,18 +22,17 @@ export default ({ title, auth }) => (
             </Button>
           </>
         )}
-        {auth && (
+        {auth.isLoggedIn && (
           <>
             <Button padding="10px" marginRight="10px" onClick={() => {}}>
               Profile
             </Button>
-            <Button padding="10px" onClick={() => {}}>
+            <Button padding="10px" onClick={() => dispatch(actions.logout())}>
               Logout
             </Button>
           </>
         )}
       </Div>
     </Header>
-    )}
-  </AppContext.Consumer>
-);
+  );
+};
